@@ -58,11 +58,11 @@ def process_request(msg):
     # also inser the data into the SQLite table
     if msg.topic == '/mkr1010/values/temperature':
         # temp.set(msg.payload)
-        sqlMsg = (str(timeVal), str(goodMsg), None, None, None)
+        sqlMsg = (str(timeVal), str(goodMsg), None)
         insert_database(sqlMsg)
     elif msg.topic == '/mkr1010/values/humidity':
         # hum.set(msg.payload)
-        sqlMsg = (str(timeVal), None, str(goodMsg), None, None)
+        sqlMsg = (str(timeVal), None, str(goodMsg))
         insert_database(sqlMsg)
     else:
         print('Incorrect topic')
