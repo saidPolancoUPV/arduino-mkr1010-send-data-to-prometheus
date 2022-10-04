@@ -1,7 +1,7 @@
 import sqlite3
 
 import paho.mqtt.client as mqtt
-from prometheus_client import start_http_server, Summary, Gauge
+# from prometheus_client import start_http_server, Summary, Gauge
 import time
 import datetime
 import sqlite3
@@ -13,12 +13,12 @@ from sqlite3 import Error
 # load_dotenv()
 
 # Prometheus Variables
-temp = Gauge('outdoor temperature', 'Weather Station Temperature')
-hum = Gauge('outdoor humidity', 'Weather Station Humidity')
+# temp = Gauge('outdoor temperature', 'Weather Station Temperature')
+# hum = Gauge('outdoor humidity', 'Weather Station Humidity')
 
 
 # MQTT Config Variables
-MQTT_ADDRESS = '192.168.0.101'  # os.environ.get("MQTT_ADDRESS")
+MQTT_ADDRESS = '127.0.0.1' # '192.168.0.101'  # os.environ.get("MQTT_ADDRESS")
 MQTT_USER = 'spolancom'  # os.environ.get("MQTT_USER")
 MQTT_PASSWORD = 'm15cuy1t0s'  # os.environ.get("MQTT_PASSWORD")
 MQTT_TOPIC = '/mkr1010/values/temperature'
@@ -57,11 +57,11 @@ def process_request(msg):
     # this publishes the mqtt variables to a prometheus gauge
     # also inser the data into the SQLite table
     if msg.topic == '/mkr1010/values/temperature':
-        temp.set(msg.payload)
+        # temp.set(msg.payload)
         sqlMsg = (str(timeVal), str(goodMsg), None, None, None)
         insert_database(sqlMsg)
     elif msg.topic == '/mkr1010/values/humidity':
-        hum.set(msg.payload)
+        # hum.set(msg.payload)
         sqlMsg = (str(timeVal), None, str(goodMsg), None, None)
         insert_database(sqlMsg)
     else:
@@ -121,7 +121,7 @@ def insert_database(sqlMsg):
 
 def main():
     # Start Prometheus server
-    start_http_server(8000)
+    # start_http_server(8000)
     # setup the SQLite database
     databasePath = setup_database()
     create_table(databasePath)
